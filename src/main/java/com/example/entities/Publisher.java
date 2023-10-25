@@ -56,5 +56,13 @@ public class Publisher implements Serializable {
     }
 
 
+    @Override
+    public String toString() {
+        return 
+            "\nId: " + getId() +
+            "\nName: " + getName() +
+            "\nActive: " + isActive();
+    }
+
 
 }

@@ -118,4 +118,21 @@ public class Book implements Serializable {
         this.publisher = publisher;
     }
 
+
+    @Override
+    public String toString() {
+        return "{" +
+            " isbn='" + getIsbn() + "'" +
+            ", title='" + getTitle() + "'" +
+            ", year='" + getYear() + "'" +
+            ", totalStock='" + getTotalStock() + "'" +
+            ", rentedUnits='" + getRentedUnits() + "'" +
+            ", availableUnits='" + getAvailableUnits() + "'" +
+            ", active='" + isActive() + "'" +
+            ", author='" + getAuthor() + "'" +
+            ", publisher='" + getPublisher() + "'" +
+            "}";
+    }
+
+
 }

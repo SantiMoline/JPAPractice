@@ -3,17 +3,17 @@ package com.example;
 import com.example.entities.Author;
 import com.example.entities.Book;
 import com.example.entities.Publisher;
+import com.example.persistence.AuthorDAO;
+import com.example.persistence.BookDAO;
+import com.example.persistence.PublisherDAO;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("bookshopPU");
-        EntityManager em = emf.createEntityManager();
 
+        PublisherDAO pubDAO = new PublisherDAO();
+        AuthorDAO authDAO = new AuthorDAO();
+        BookDAO bookDAO = new BookDAO();
 
         Publisher publisher = new Publisher();
         publisher.setName("Sarasa");
@@ -41,16 +41,39 @@ public class Main {
         book1.setTotalStock(515);
         book1.setTitle("Lord of the rings");
         book1.setYear(1998);
-        em.getTransaction().begin();
-        em.persist(publisher);
-        em.persist(pub1);
-        em.persist(author);
-        em.persist(book);
-        em.persist(book1);
-        em.getTransaction().commit();
+
+        Book book2 = new Book();
+        book2.setAuthor(author);
+        book2.setPublisher(publisher);
+        book2.setAvailableUnits(500);
+        book2.setRentedUnits(15);
+        book2.setTotalStock(515);
+        book2.setTitle("Java Bootcamp");
+        book2.setYear(1998);
+        
+        authDAO.save(author);
+        pubDAO.save(pub1);
+        pubDAO.save(publisher);
+        bookDAO.save(book);
+        bookDAO.save(book1);
+        bookDAO.save(book2);
+
+        bookDAO.getBooksByPublisher("Sarasa")
+            .stream()
+            .forEach(b -> System.out.println(b));
+        bookDAO.getBooksByAuthor("J.K. Rowling")
+            .stream()
+            .forEach(b -> System.out.println(b));
+
+
 
         // em.getTransaction().begin();
+        // em.persist(publisher);
+        // em.persist(pub1);
+        // em.persist(author);
+        // em.persist(book);
         // em.persist(book1);
         // em.getTransaction().commit();
+
     }
 }
