@@ -20,6 +20,16 @@ public class AuthorDAO extends DAO<Author> {
         return author;
     }
 
+    public Author getAuthorByName(String name) {
+        if (name == null || name.isBlank())
+            throw new IllegalArgumentException("Name cannot be null or blank.");
+        connect();
+        Author author = (Author) em.createQuery("SELECT a FROM Author a WHERE a.name LIKE :name")
+                        .setParameter("name", name).getSingleResult();
+        disconnect();
+        return author;
+    }
+
     public void deleteAuthorById(int id) {
         Author author = getAuthorById(id);
         super.delete(author);

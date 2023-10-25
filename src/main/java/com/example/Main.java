@@ -65,15 +65,5 @@ public class Main {
             .stream()
             .forEach(b -> System.out.println(b));
 
-
-
-        // em.getTransaction().begin();
-        // em.persist(publisher);
-        // em.persist(pub1);
-        // em.persist(author);
-        // em.persist(book);
-        // em.persist(book1);
-        // em.getTransaction().commit();
-
     }
 }

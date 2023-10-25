@@ -56,5 +56,12 @@ public class Author implements Serializable {
         this.active = active;
     }
 
+
+    @Override
+    public String toString() {
+        return
+            "\tId: " + getId() +
+            "\tName: " + getName();
+    }
     
 }

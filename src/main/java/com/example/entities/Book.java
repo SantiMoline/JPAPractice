@@ -121,17 +121,15 @@ public class Book implements Serializable {
 
     @Override
     public String toString() {
-        return "{" +
-            " isbn='" + getIsbn() + "'" +
-            ", title='" + getTitle() + "'" +
-            ", year='" + getYear() + "'" +
-            ", totalStock='" + getTotalStock() + "'" +
-            ", rentedUnits='" + getRentedUnits() + "'" +
-            ", availableUnits='" + getAvailableUnits() + "'" +
-            ", active='" + isActive() + "'" +
-            ", author='" + getAuthor() + "'" +
-            ", publisher='" + getPublisher() + "'" +
-            "}";
+        return
+            "\nIsbn: " + getIsbn() +
+            "\nTitle: " + getTitle() +
+            "\nYear: " + getYear() +
+            "\nTotal Stock: " + getTotalStock() +
+            "\nRented Units: " + getRentedUnits() +
+            "\nAvailable Units: " + getAvailableUnits() +
+            "\nAuthor: " + getAuthor() +
+            "\nPublisher: " + getPublisher();
     }
 
 

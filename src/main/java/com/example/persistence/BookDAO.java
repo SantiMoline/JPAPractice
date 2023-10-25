@@ -11,17 +11,27 @@ public class BookDAO extends DAO<Book> {
         super.save(book);
     }
 
-    public Book getBookById(int id) {
-        if (id < 0)
+    public Book getBookByIsbn(long isbn) {
+        if (isbn < 0)
             throw new IllegalArgumentException("Id cannot be less than zero.");
         connect();
-        Book book = em.find(Book.class, id);
+        Book book = em.find(Book.class, isbn);
         disconnect();
         return book;
     }
 
-    public void deleteBookById(int id) {
-        Book book = getBookById(id);
+    public Book getBookByTitle(String title) {
+        if (title == null || title.isBlank())
+            throw new IllegalArgumentException("Title cannot be null or blank");
+        connect();
+        Book book = (Book) em.createQuery("SELECT b FROM Book b WHERE b.title LIKE :title")
+                    .setParameter("title", title).getSingleResult();
+        disconnect();
+        return book;
+    }
+
+    public void deleteBookByIsbn(long isbn) {
+        Book book = getBookByIsbn(isbn);
         super.delete(book);
     }
 
@@ -53,5 +63,7 @@ public class BookDAO extends DAO<Book> {
         disconnect();
         return books;
     }
+
+
     
 }
