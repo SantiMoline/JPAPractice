@@ -31,6 +31,17 @@ public class Book implements Serializable {
         active = true;
     }
 
+    public Book(String title, int year, int totalStock, int rentedUnits, int availableUnits, Author author, Publisher publisher) {
+        setTitle(title);
+        setYear(year);
+        setTotalStock(totalStock);
+        setRentedUnits(rentedUnits);
+        setAvailableUnits(availableUnits);
+        setActive(true);
+        setAuthor(author);
+        setPublisher(publisher);
+    }
+
     public Book(Long isbn, String title, int year, int totalStock, int rentedUnits, int availableUnits, boolean active, Author author, Publisher publisher) {
         setIsbn(isbn);
         setTitle(title);
