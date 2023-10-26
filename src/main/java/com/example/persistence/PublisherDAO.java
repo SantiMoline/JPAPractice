@@ -28,7 +28,7 @@ public class PublisherDAO extends DAO<Publisher> {
         super.delete(publisher);
     }
 
-    public List<Publisher> getPublishers() throws Exception {
+    public List<Publisher> getPublishers() {
         connect();
         @SuppressWarnings("unchecked")
         //It's safe to assume that the result of the query can be casted to Publisher, because it came from the corresponding entity table.

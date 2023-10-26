@@ -28,18 +28,19 @@ public class Book implements Serializable {
     private Publisher publisher;
     
     public Book() {
+        active = true;
     }
 
     public Book(Long isbn, String title, int year, int totalStock, int rentedUnits, int availableUnits, boolean active, Author author, Publisher publisher) {
-        this.isbn = isbn;
-        this.title = title;
-        this.year = year;
-        this.totalStock = totalStock;
-        this.rentedUnits = rentedUnits;
-        this.availableUnits = availableUnits;
-        this.active = active;
-        this.author = author;
-        this.publisher = publisher;
+        setIsbn(isbn);
+        setTitle(title);
+        setYear(year);
+        setTotalStock(totalStock);
+        setRentedUnits(rentedUnits);
+        setAvailableUnits(availableUnits);
+        setActive(active);
+        setAuthor(author);
+        setPublisher(publisher);
     }
 
     public Long getIsbn() {

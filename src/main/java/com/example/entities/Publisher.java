@@ -21,6 +21,10 @@ public class Publisher implements Serializable {
     public Publisher() {
     }
 
+    public Publisher (String name) {
+        setName(name);
+        setActive(true);
+    }
     public Publisher(int id, String name, boolean active) {
         this.id = id;
         this.name = name;
@@ -40,6 +44,8 @@ public class Publisher implements Serializable {
     }
 
     public void setName(String name) {
+        if (name == null || name.isBlank())
+            throw new IllegalArgumentException("Name cannot be null or blank.");
         this.name = name;
     }
 

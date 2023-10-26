@@ -21,11 +21,15 @@ public class Author implements Serializable {
     public Author() {
     }
 
+    public Author(String name) {
+        setName(name);
+        setActive(true);
+    }
+
     public Author(int id, String name, boolean active) {
-        
-        this.id = id;
-        this.name = name;
-        this.active = active;
+        setId(id);
+        setName(name);
+        setActive(active);
     }
 
     public int getId() {
@@ -41,6 +45,8 @@ public class Author implements Serializable {
     }
 
     public void setName(String name) {
+        if (name == null || name.isBlank())
+            throw new IllegalArgumentException("Author's name cannot be null or blank.");
         this.name = name;
     }
 
