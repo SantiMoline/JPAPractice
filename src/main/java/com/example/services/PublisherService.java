@@ -27,6 +27,10 @@ public class PublisherService {
         if (publisher == null) {
             throw new IllegalArgumentException("Publisher cannot be null.");
         }
+        if (getPublisherByName(publisher.getName()) != null) {
+            System.out.println("There is already a publisher with that name in our DB.");
+            return;
+        }
         try {
             DAO.save(publisher);
         } catch (EntityExistsException e) {

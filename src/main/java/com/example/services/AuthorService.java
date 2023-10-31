@@ -26,6 +26,10 @@ public class AuthorService {
     public void saveAuthor(Author author) {
         if (author == null)
             throw new IllegalArgumentException("Author cannot be null.");
+        if (getAuthorByName(author.getName()) != null) {
+            System.out.println("There is already an author with that name in our DB.");
+            return;
+        }
         try {
             DAO.save(author);
         } catch (EntityExistsException e) {

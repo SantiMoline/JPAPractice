@@ -65,7 +65,24 @@ public class Main {
                     msg = auth == null ? "There is no author with that name in our Database." : auth.toString();
                     System.out.println(msg);
                     break;
-                 case 9:
+                case 9:
+                    showBooks(bs.getBooks());
+                    break;
+                case 10:
+                    List<Author> authors = as.getAuthors();
+                    if (authors.size() == 0)
+                        System.out.println("There are no authors in our Database.");
+                    else 
+                        authors.forEach(a -> System.out.println(a));
+                    break;
+                case 11:
+                    List<Publisher> publishers = ps.getPublishers();
+                    if (publishers.size() == 0)
+                        System.out.println("There are no publishers in our Database.");
+                    else
+                        publishers.forEach(p -> System.out.println(p));
+                    break;
+                 case 12:
                     active = false;
                     break;
             }
@@ -81,7 +98,10 @@ public class Main {
         System.out.println("6. Search book by title.");
         System.out.println("7. Search book by Isbn.");
         System.out.println("8. Search author by name.");
-        System.out.println("9. Exit.");
+        System.out.println("9. Show all books.");
+        System.out.println("10. Show all authors.");
+        System.out.println("11. Show all publishers.");
+        System.out.println("12. Exit.");
     }
 
 
@@ -131,7 +151,7 @@ public class Main {
     }
 
     public static boolean isInvalidMenuOpt(int n) {
-        return n < 1 || n > 9;
+        return n < 1 || n > 12;
     }
 
     public static boolean isInvalidYear(int year) {
