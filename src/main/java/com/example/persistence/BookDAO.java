@@ -21,14 +21,15 @@ public class BookDAO extends DAO<Book> {
         return book;
     }
 
-    public Book getBookByTitle(String title) {
+    public List<Book> getBookByTitle(String title) {
         if (title == null || title.isBlank())
             throw new IllegalArgumentException("Title cannot be null or blank");
         connect();
-        Book book = (Book) em.createQuery("SELECT b FROM Book b WHERE b.title LIKE :title")
-                    .setParameter("title", title).getSingleResult();
+        @SuppressWarnings("unchecked")
+        List <Book> books = em.createQuery("SELECT b FROM Book b WHERE b.title LIKE :title")
+                    .setParameter("title", "%"+title+"%").getResultList();
         disconnect();
-        return book;
+        return books;
     }
 
     public void deleteBookByIsbn(long isbn) {

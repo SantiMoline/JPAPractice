@@ -49,20 +49,21 @@ public class Main {
                     showBooks(books);
                     break;
                  case 6:
+                    String title = promptForName(scan);
+                    books = bs.getBooksByTitle(title);
+                    showBooks(books);
+                    break;
+                 case 7:
                     long isbn = promptForNumber(scan);
                     Book book = bs.getBookByIsbn(isbn);
                     String msg = book == null ? "There are no books with that Isdb in our Database." : book.toString();
                     System.out.println(msg);
                     break;
-                 case 7:
+                 case 8:
                     author = promptForName(scan);
                     Author auth = as.getAuthorByName(author);
                     msg = auth == null ? "There is no author with that name in our Database." : auth.toString();
                     System.out.println(msg);
-                    break;
-                 case 8:
-                    publisher = promptForName(scan);
-                    ps.savePublisher(ps.createPublisher(publisher));
                     break;
                  case 9:
                     active = false;
@@ -77,9 +78,9 @@ public class Main {
         System.out.println("3. Register new book.");
         System.out.println("4. Search books by author.");
         System.out.println("5. Search books by publisher.");
-        System.out.println("6. Search book by Isbn.");
-        System.out.println("7. Search author by name.");
-        System.out.println("8. Register new Publisher");
+        System.out.println("6. Search book by title.");
+        System.out.println("7. Search book by Isbn.");
+        System.out.println("8. Search author by name.");
         System.out.println("9. Exit.");
     }
 

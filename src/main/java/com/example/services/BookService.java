@@ -78,4 +78,13 @@ public class BookService {
 
     }
 
+    public List<Book> getBooksByTitle(String title) {
+        try {
+            return DAO.getBookByTitle(title);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
 }
