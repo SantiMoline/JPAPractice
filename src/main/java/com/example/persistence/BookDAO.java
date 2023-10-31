@@ -1,5 +1,6 @@
 package com.example.persistence;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import com.example.entities.Book;
@@ -7,7 +8,7 @@ import com.example.entities.Book;
 public class BookDAO extends DAO<Book> {
 
     @Override
-    public void save(Book book) {
+    public void save(Book book) throws SQLIntegrityConstraintViolationException {
         super.save(book);
     }
 

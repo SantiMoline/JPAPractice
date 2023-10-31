@@ -1,5 +1,6 @@
 package com.example.persistence;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import com.example.entities.Publisher;
@@ -7,7 +8,7 @@ import com.example.entities.Publisher;
 public class PublisherDAO extends DAO<Publisher> {
     
     @Override
-    public void save (Publisher pub) {
+    public void save (Publisher pub) throws SQLIntegrityConstraintViolationException {
         super.save(pub);
     }
 
@@ -26,6 +27,16 @@ public class PublisherDAO extends DAO<Publisher> {
         // connect(); not needed because the method getPublisherById() already initiate the connection.
         Publisher publisher = getPublisherById(id);
         super.delete(publisher);
+    }
+
+    public Publisher getPublisherByName(String name) {
+        if (name == null || name.isBlank())
+            throw new IllegalArgumentException("Publisher's name cannot be null or blank.");
+        connect();
+        Publisher publishers = (Publisher) em.createQuery("SELECT p FROM Publisher p WHERE p.name LIKE :name")
+                                    .setParameter("name", name).getSingleResult();
+        disconnect();
+        return publishers;
     }
 
     public List<Publisher> getPublishers() {

@@ -1,5 +1,7 @@
 package com.example.persistence;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -29,7 +31,7 @@ public abstract class DAO <T> {
      * Allows to persist and object into the DB. 
      * @param object Generic object to be stored in the DB.
      */
-    protected void save(T object) {
+    protected void save(T object) throws SQLIntegrityConstraintViolationException {
         connect();
         em.getTransaction().begin();
         em.persist(object);

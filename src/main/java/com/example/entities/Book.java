@@ -2,6 +2,8 @@ package com.example.entities;
 
 import java.io.Serializable;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +17,7 @@ public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long isbn;
+    @Column(unique = true)
     private String title;
     private int year;
     private int totalStock;
@@ -22,9 +25,9 @@ public class Book implements Serializable {
     private int availableUnits;
     private boolean active;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.PERSIST)
     private Author author;
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.PERSIST)
     private Publisher publisher;
     
     public Book() {

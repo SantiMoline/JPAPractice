@@ -1,5 +1,6 @@
 package com.example.persistence;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import com.example.entities.Author;
@@ -7,7 +8,7 @@ import com.example.entities.Author;
 public class AuthorDAO extends DAO<Author> {
     
     @Override
-    public void save(Author auth) {
+    public void save(Author auth) throws SQLIntegrityConstraintViolationException {
         super.save(auth);
     }
 
@@ -20,14 +21,19 @@ public class AuthorDAO extends DAO<Author> {
         return author;
     }
 
+    /**
+     * Search in the DB authors containing the indicated name. Returns a list containing all the possible objects.
+     * @param name
+     * @return
+     */
     public Author getAuthorByName(String name) {
         if (name == null || name.isBlank())
             throw new IllegalArgumentException("Name cannot be null or blank.");
         connect();
-        Author author = (Author) em.createQuery("SELECT a FROM Author a WHERE a.name LIKE :name")
+        Author auth = (Author) em.createQuery("SELECT a FROM Author a WHERE a.name LIKE :name")
                         .setParameter("name", name).getSingleResult();
         disconnect();
-        return author;
+        return auth;
     }
 
     public void deleteAuthorById(int id) {
