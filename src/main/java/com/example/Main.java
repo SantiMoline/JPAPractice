@@ -16,24 +16,29 @@ public class Main {
     static PublisherService ps = new PublisherService();
     static AuthorService as = new AuthorService();
     static BookService bs = new BookService();
+    static final int MENU_OPT = 12;
     //static Services so they can be called from a static method to fill the DB with initial values;
     public static void main(String[] args) {
         boolean active = true;
         Scanner scan = new Scanner(System.in);
+        bs.setServices(ps, as);
         fillDb();
         System.out.println("Welcome to the Bookshop App.");
 
         while (active) {
             showMenu();
             int opc = promptForOption(scan);
+            String msg;
             switch(opc) {
                 case 1:
                     String publisher = promptForName(scan);
-                    ps.savePublisher(ps.createPublisher(publisher));
+                    msg = ps.savePublisher(ps.createPublisher(publisher)) ? "Publisher registered successfully" : "There is already a publisher with that name in our DB.";
+                    System.out.println(msg);
                     break;
                 case 2:
                     String author = promptForName(scan);
-                    as.saveAuthor(as.createAuthor(author));
+                    msg = as.saveAuthor(as.createAuthor(author)) ? "The author has been registered!" : "There is already an author with that name in our DB.";
+                    System.out.println(msg);
                     break;
                 case 3: 
                     bs.saveBook(promptForNewBook(scan));
@@ -56,7 +61,7 @@ public class Main {
                  case 7:
                     long isbn = promptForNumber(scan);
                     Book book = bs.getBookByIsbn(isbn);
-                    String msg = book == null ? "There are no books with that Isdb in our Database." : book.toString();
+                    msg = book == null ? "There are no books with that Isdb in our Database." : book.toString();
                     System.out.println(msg);
                     break;
                  case 8:
@@ -90,18 +95,18 @@ public class Main {
     }
 
     public static void showMenu() {
-        System.out.println("1. Register new publisher.");
-        System.out.println("2. Register new author.");
-        System.out.println("3. Register new book.");
-        System.out.println("4. Search books by author.");
-        System.out.println("5. Search books by publisher.");
-        System.out.println("6. Search book by title.");
-        System.out.println("7. Search book by Isbn.");
-        System.out.println("8. Search author by name.");
-        System.out.println("9. Show all books.");
-        System.out.println("10. Show all authors.");
-        System.out.println("11. Show all publishers.");
-        System.out.println("12. Exit.");
+        System.out.print("\n1. Register new publisher.");
+        System.out.print("\t\t2. Register new author.");
+        System.out.print("\n3. Register new book.");
+        System.out.print("\t\t\t4. Search books by author.");
+        System.out.print("\n5. Search books by publisher.");
+        System.out.print("\t\t6. Search book by title.");
+        System.out.print("\n7. Search book by Isbn.");
+        System.out.print("\t\t\t8. Search author by name.");
+        System.out.print("\n9. Show all books.");
+        System.out.print("\t\t\t10. Show all authors.");
+        System.out.print("\n11. Show all publishers.");
+        System.out.print("\t\t12. Exit.");
     }
 
 
@@ -138,7 +143,7 @@ public class Main {
 
     public static int promptForOption(Scanner scan) {
         while (true) {
-            System.out.print("Select an option: ");
+            System.out.print("\nSelect an option: ");
             if(!scan.hasNextInt()) {
                 scan.nextLine(); //To capture incorrect input.
                 continue;
@@ -151,7 +156,7 @@ public class Main {
     }
 
     public static boolean isInvalidMenuOpt(int n) {
-        return n < 1 || n > 12;
+        return n < 1 || n > MENU_OPT;
     }
 
     public static boolean isInvalidYear(int year) {
@@ -166,23 +171,28 @@ public class Main {
                 continue;
             }
             int year = scan.nextInt();
+            scan.nextLine(); //Throwaway scan.
             if (!isInvalidYear(year))
                 return year;
         }
     }
 
     public static Book promptForNewBook(Scanner scan) {
+        System.out.print("\nTitle - ");
         String title = promptForName(scan);
         int stock = promptForNumber(scan);
         int year = promptForYear(scan);
+        System.out.print("\nAuthor - ");
         String authorsName = promptForName(scan);
+        System.out.print("\nPublisher - ");
         String publishersName = promptForName(scan);
-        
+
         Author auth = as.getAuthorByName(authorsName);
         auth = auth == null ? as.createAuthor(authorsName) : auth;
         
         Publisher pub = ps.getPublisherByName(publishersName);
         pub = pub == null ? ps.createPublisher(publishersName) : pub;
+        
 
         return bs.createBook(title, year, stock, auth, pub);
     }

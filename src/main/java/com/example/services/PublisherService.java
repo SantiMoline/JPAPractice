@@ -23,21 +23,21 @@ public class PublisherService {
         return new Publisher(name);
     }
 
-    public void savePublisher(Publisher publisher) {
+    public boolean savePublisher(Publisher publisher) {
         if (publisher == null) {
             throw new IllegalArgumentException("Publisher cannot be null.");
         }
-        if (getPublisherByName(publisher.getName()) != null) {
-            System.out.println("There is already a publisher with that name in our DB.");
-            return;
+        if (getPublisherByName(publisher.getName()) == null) {
+            try {
+                DAO.save(publisher);
+                return true;
+            } catch (EntityExistsException e) {
+                System.out.println("There is already an object stored with the same id.");
+            } catch (SQLIntegrityConstraintViolationException | RollbackException e) {
+                System.out.println("There is already a publisher with the same name registered in our DB.");
+            }
         }
-        try {
-            DAO.save(publisher);
-        } catch (EntityExistsException e) {
-            System.out.println("There is already an object stored with the same id.");
-        } catch (SQLIntegrityConstraintViolationException | RollbackException e) {
-            System.out.println("There is already a publisher with the same name registered in our DB.");
-        }
+        return false;
     }
 
     public Publisher getPublisherById(int id) {

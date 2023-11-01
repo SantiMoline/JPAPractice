@@ -23,21 +23,20 @@ public class AuthorService {
         return new Author(name);
     }
 
-    public void saveAuthor(Author author) {
+    public boolean saveAuthor(Author author) {
         if (author == null)
             throw new IllegalArgumentException("Author cannot be null.");
-        if (getAuthorByName(author.getName()) != null) {
-            System.out.println("There is already an author with that name in our DB.");
-            return;
+        if (getAuthorByName(author.getName()) == null) {
+            try {
+                DAO.save(author);
+                return true;
+            } catch (EntityExistsException e) {
+                System.out.println("There is already an object stored with the same id.");
+            } catch (SQLIntegrityConstraintViolationException | RollbackException e) {
+                System.out.println("There is already an author with the same name registered in our DB.");
+            }
         }
-        try {
-            DAO.save(author);
-        } catch (EntityExistsException e) {
-            //System.out.println(e.getMessage());
-            System.out.println("There is already an object stored with the same id.");
-        } catch (SQLIntegrityConstraintViolationException | RollbackException e) {
-            System.out.println("There is already an author with the same name registered in our DB.");
-        }
+        return false;
     }
 
     public Author getAuthorById(int id) {

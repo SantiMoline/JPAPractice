@@ -14,10 +14,16 @@ import jakarta.persistence.RollbackException;
 public class BookService {
     
     private final BookDAO DAO;
-
+    private PublisherService ps;
+    private AuthorService as;
 
     public BookService() {
         DAO = new BookDAO();
+    }
+
+    public void setServices(PublisherService ps, AuthorService as) {
+        this.ps = ps;
+        this.as = as;
     }
 
     /**
@@ -33,10 +39,27 @@ public class BookService {
         return new Book(title, year, totalStock, 0, totalStock, author, publisher);
     }
 
+    public Book createBook(String title, int year, int totalStock, String authorsName, String publishersName) {
+
+
+        return new Book(title, year, totalStock, year, totalStock, new Author(authorsName), new Publisher(publishersName));
+    }
+
     public void saveBook(Book book) {
         if (book == null)
             throw new IllegalArgumentException("Book cannot be null.");
         try {
+            // Author auth = as.getAuthorByName(book.getAuthor().getName());
+            // if (auth == null) {
+            //     auth = as.createAuthor(book.getAuthor().getName());
+            //     as.saveAuthor(auth);
+            // }
+            
+            // Publisher pub = ps.getPublisherByName(book.getPublisher().getName());
+            // if (pub == null) {
+            //     pub = ps.createPublisher(book.getPublisher().getName());
+            //     ps.savePublisher(pub);
+            // }
             DAO.save(book);
         } catch (EntityExistsException e) {
             //System.out.println(e.getMessage());

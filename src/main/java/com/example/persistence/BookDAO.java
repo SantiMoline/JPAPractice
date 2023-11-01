@@ -41,7 +41,7 @@ public class BookDAO extends DAO<Book> {
         connect();
         @SuppressWarnings("unchecked")
         //It's safe to assume that the result of the query can be casted to Book, because it came from the corresponding entity table.
-        List<Book> books = em.createQuery("SELECT b FROM Book").getResultList();
+        List<Book> books = em.createQuery("SELECT b FROM Book b").getResultList();
         disconnect();
         return books;
     }
