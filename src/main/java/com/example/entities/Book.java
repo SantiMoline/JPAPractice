@@ -2,7 +2,6 @@ package com.example.entities;
 
 import java.io.Serializable;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,9 +24,9 @@ public class Book implements Serializable {
     private int availableUnits;
     private boolean active;
 
-    @ManyToOne (cascade = CascadeType.PERSIST)
+    @ManyToOne
     private Author author;
-    @ManyToOne (cascade = CascadeType.PERSIST)
+    @ManyToOne
     private Publisher publisher;
     
     public Book() {

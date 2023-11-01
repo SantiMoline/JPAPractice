@@ -39,9 +39,17 @@ public class BookService {
         return new Book(title, year, totalStock, 0, totalStock, author, publisher);
     }
 
+    /**
+     * Create a new instance of Book without assigning an Isbd (DB will handle that), and setting rented units = 0 and available units = total stock.
+     * Recieves the Author and Publisher as String and generate the mandatory instances.
+     * @param title
+     * @param year
+     * @param totalStock
+     * @param authorsName
+     * @param publishersName
+     * @return
+     */
     public Book createBook(String title, int year, int totalStock, String authorsName, String publishersName) {
-
-
         return new Book(title, year, totalStock, year, totalStock, new Author(authorsName), new Publisher(publishersName));
     }
 
@@ -49,24 +57,40 @@ public class BookService {
         if (book == null)
             throw new IllegalArgumentException("Book cannot be null.");
         try {
-            // Author auth = as.getAuthorByName(book.getAuthor().getName());
-            // if (auth == null) {
-            //     auth = as.createAuthor(book.getAuthor().getName());
-            //     as.saveAuthor(auth);
-            // }
-            
-            // Publisher pub = ps.getPublisherByName(book.getPublisher().getName());
-            // if (pub == null) {
-            //     pub = ps.createPublisher(book.getPublisher().getName());
-            //     ps.savePublisher(pub);
-            // }
+            checkAuthor(book);
+            checkPublisher(book);
             DAO.save(book);
         } catch (EntityExistsException e) {
-            //System.out.println(e.getMessage());
             System.out.println("There is already an object stored with the same id.");
         } catch (SQLIntegrityConstraintViolationException | RollbackException e) {
             System.out.println("There is already a book with the same title registered in our DB.");
         }
+    }
+
+    /**
+     * Validates if the book's author is already stored in the DB. In that case, sets the book's author field to the object Author retrieved from the DB.
+     * @param book
+     */
+    private void checkAuthor(Book book) {
+        Author auth = as.getAuthorByName(book.getAuthor().getName());
+        if (auth == null) {
+            auth = as.createAuthor(book.getAuthor().getName());
+            as.saveAuthor(auth);
+        }
+        book.setAuthor(auth);
+    }
+
+    /**
+     * Validates if the book's publisher is already stored in the DB. In that case, sets the book's publisher field to the object Author retrieved from the DB.
+     * @param book
+     */
+    private void checkPublisher(Book book) {
+        Publisher pub = ps.getPublisherByName(book.getPublisher().getName());
+        if (pub == null) {
+            pub = ps.createPublisher(book.getPublisher().getName());
+            ps.savePublisher(pub);
+        }
+        book.setPublisher(pub);
     }
 
     public Book getBookByIsbn(long isbn) {

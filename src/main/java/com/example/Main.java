@@ -185,16 +185,9 @@ public class Main {
         System.out.print("\nAuthor - ");
         String authorsName = promptForName(scan);
         System.out.print("\nPublisher - ");
-        String publishersName = promptForName(scan);
-
-        Author auth = as.getAuthorByName(authorsName);
-        auth = auth == null ? as.createAuthor(authorsName) : auth;
+        String publishersName = promptForName(scan);      
         
-        Publisher pub = ps.getPublisherByName(publishersName);
-        pub = pub == null ? ps.createPublisher(publishersName) : pub;
-        
-
-        return bs.createBook(title, year, stock, auth, pub);
+        return bs.createBook(title, year, stock, authorsName, publishersName);
     }
 
     public static void showBooks(List<Book> books) {
